@@ -43,5 +43,9 @@ public class Grafica {
     public JPanel getGrafica(){
         return new ChartPanel(this.graficador);
     }
+    
+    public XYSeriesCollection getDatos(){
+        return datos;
+    }
 
 }
