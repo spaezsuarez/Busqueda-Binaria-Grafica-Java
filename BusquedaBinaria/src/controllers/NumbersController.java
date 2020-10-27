@@ -2,7 +2,7 @@ package controllers;
 
 import java.util.ArrayList;
 import algorithms.BusquedaBinaria;
-import algorithms.SelectionSort;
+import algorithms.QuickSort;
 
 public class NumbersController {
 
@@ -32,13 +32,13 @@ public class NumbersController {
 
     public void initNumbers(int n) {
 
-        numbers = new double[n];
+        numbers = new double[n+1];
 
-        for (int i = 0; i < n; i++) {
-            numbers[i] = i + 1;
+        for (int i = 0; i < n+1; i++) {
+            numbers[i] = Math.floor(Math.random() * (n - 0 + 1) + 0);;
         }
 
-        SelectionSort.init(numbers);
+        QuickSort.init(0,n,numbers);
         
         for(double s:numbers){
             System.out.print(s + " ");
@@ -51,18 +51,19 @@ public class NumbersController {
 
         initNumbers(n);
         int element = (int) (Math.random() * n);
-        System.out.println("Elemento: " + numbers[element]);
-
+        
+        busquedaBinaria.setContador(0);
         busquedaBinaria.searchRecursive(numbers, 0, n, numbers[element]);
         busquedaBinaria.setFormula(n);
 
         rangeX.add(Double.parseDouble(String.valueOf(n)));
-        rangeY.add(busquedaBinaria.getFormula());
+        rangeY.add(BusquedaBinaria.getContador());
 
     }
 
-    public double[] getNumbers() {
-        return numbers;
+    public void resetRanges() {
+        rangeX.clear();
+        rangeY.clear();
     }
 
 }

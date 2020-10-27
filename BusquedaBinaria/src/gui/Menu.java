@@ -1,7 +1,6 @@
 package gui;
 
 //Elementos Graficos
-import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
 public class Menu extends JFrame implements ActionListener {
 
     private JTextField inputMaxSize;
-    private JButton btnGraficar;
+    private JButton btnGraficar,btnLimpiar;
     private JLabel txtInitialSize, txtMaxSize, txtTitle;
     private final int WIDTH, HEIGTH;
 
@@ -34,6 +33,7 @@ public class Menu extends JFrame implements ActionListener {
 
         inputMaxSize = new JTextField();
         btnGraficar = new JButton("Graficar");
+        btnLimpiar = new JButton("X");
         txtTitle = new JLabel("Dimensiones de la serie de arreglos");
         txtInitialSize = new JLabel("Tamaño minimo de la serie: ");
         txtMaxSize = new JLabel("Tamaño Maximo de la serie: ");
@@ -49,6 +49,7 @@ public class Menu extends JFrame implements ActionListener {
         setSize(new Dimension(WIDTH, HEIGTH));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setResizable(false);
         initComponents();
         setVisible(true);
 
@@ -86,6 +87,12 @@ public class Menu extends JFrame implements ActionListener {
         btnGraficar.setLocation(475, 500);
         btnGraficar.addActionListener(this);
         add(btnGraficar);
+        
+        btnLimpiar.setSize(new Dimension(100,50));
+        btnLimpiar.setLocation(800,500);
+        btnLimpiar.setFont(new Font("Arial", Font.BOLD, 30));
+        btnLimpiar.addActionListener(this);
+        add(btnLimpiar);
 
     }
 
@@ -93,6 +100,7 @@ public class Menu extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent event) {
 
         if (event.getSource() == btnGraficar) {
+            
             ArrayList<Double> logx = new ArrayList<>();
             ArrayList<Double> logy = new ArrayList<>();
 
@@ -100,13 +108,11 @@ public class Menu extends JFrame implements ActionListener {
             try {
                 maxSize = Integer.parseInt(inputMaxSize.getText());
 
-                for (int j = 1; j < maxSize; j++) {
+                for (int j = 1; j <= maxSize; j++) {
                     controller.start(j);
                     logx.add(Double.parseDouble(String.valueOf(j)));
                     logy.add((Math.log(j)/Math.log(2)));
                 }
-                
-                graficador.getDatos().removeAllSeries();
                 graficador.crearGrafica("Busqueda Binaria", controller.getRangeX(), controller.getRangeY());
                 graficador.agregarGrafica("Log base 2", logx, logy);
 
@@ -114,6 +120,11 @@ public class Menu extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Ingrese Numeros", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
+        }else if(event.getSource() == btnLimpiar){
+            graficador.resetSeries();
+            controller.resetRanges();
+            tablero = graficador.getGrafica();
+            repaint();
         }
 
     }

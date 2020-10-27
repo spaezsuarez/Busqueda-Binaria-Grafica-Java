@@ -7,7 +7,6 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
@@ -46,6 +45,10 @@ public class Grafica {
     
     public XYSeriesCollection getDatos(){
         return datos;
+    }
+    
+    public void resetSeries(){
+        this.datos.removeAllSeries();
     }
 
 }
